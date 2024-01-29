@@ -26,8 +26,8 @@ bestDistance = 0
 evaluations = 500
 
 def step(robotId, sensors, position):
-    global evaluations, param, bestParam, bestDistance, simulation_mode
-    
+    global evaluations, param, bestParam, bestDistance
+
     # cet exemple montre comment générer au hasard, et évaluer, des stratégies comportementales
     # Remarques:
     # - l'évaluation est ici la distance moyenne parcourue, mais on peut en imaginer d'autres
@@ -53,7 +53,6 @@ def step(robotId, sensors, position):
             rob.controllers[robotId].set_absolute_orientation(90)
 
     if evaluations == 0:
-        simulation_mode = 0
         param = np.copy(bestParam)
         if rob.iterations % 1000 == 0:
             rob.controllers[robotId].set_position(posInit[0], posInit[1])
@@ -247,7 +246,7 @@ def main():
     )
 
     rob.start()
-
+    
     rob.update(1000000)
     rob.close()
 
