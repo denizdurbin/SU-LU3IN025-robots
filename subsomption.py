@@ -85,7 +85,7 @@ def step(robotId, sensors): # <<<<<<<<<------- fonction à modifier pour le TP1
     if( (1) * sensors["sensor_front_right"]["distance_to_robot"] + (1) * sensors["sensor_front_left"]["distance_to_robot"] + (1) * sensors["sensor_front"]["distance_to_robot"] < 3.0) :
         translation, rotation = love_bots(sensors)
 
-    if( (1) * sensors["sensor_front_right"]["distance_to_wall"] + (1) * sensors["sensor_front_left"]["distance_to_wall"] + (1) * sensors["sensor_front"]["distance_to_wall"] < 3.0) :
+    elif( (1) * sensors["sensor_front_right"]["distance_to_wall"] + (1) * sensors["sensor_front_left"]["distance_to_wall"] + (1) * sensors["sensor_front"]["distance_to_wall"] < 3.0) :
         translation, rotation = hate_wall(sensors)
     
 
