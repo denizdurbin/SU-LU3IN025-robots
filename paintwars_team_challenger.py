@@ -4,7 +4,7 @@
 # Prénom Nom: Deniz Ali DURBIN 21111116
 import math
 import random
-from typing import Union, Any
+
 
 memory = 0
 
