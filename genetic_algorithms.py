@@ -19,16 +19,20 @@ rob = 0
 simulation_mode = 0  # Simulation mode: realtime=0, fast=1, super_fast_no_render=2 -- pendant la simulation, la touche "d" permet de passer d'un mode à l'autre.
 
 posInit = (400, 400)
-param = []
+param_parent = []
+param_child = [1, 0, 1, 0, -1, 0, 0, 1]
 bestParam = []
 bestDistance = 0
+parent_dist = 0
 eval_orientation = 0
 total_dist = 0
 evaluations = 500
+mu = 5
+lambda_ = 20
 
 
 def step(robotId, sensors, position):
-    global evaluations, param, bestParam, bestDistance, eval_orientation, total_dist
+    global evaluations, param, bestParam, bestDistance, eval_orientation, total_dist, param_parent, param_child, parent_dist
 
     # cet exemple montre comment générer au hasard, et évaluer, des stratégies comportementales
     # Remarques:
@@ -51,13 +55,19 @@ def step(robotId, sensors, position):
                 if (total_dist > bestDistance):
                     bestDistance = total_dist
                     print("Best distance:", bestDistance)
-                    bestParam = np.copy(param)
+                    bestParam = np.copy(param_child)
                     print("Best params: ", bestParam)
+                if(total_dist > parent_dist):
+                    parent_dist = total_dist
+                    param_parent = np.copy(param_child)
+                    print("Parent ", param_parent, " replaced by superior child ", param_child)
+                else:
+                    param_child = np.copy(param_parent)
 
         if eval_orientation == 0:
-            param = []
-            for i in range(0, 8):
-                param.append(random.randint(-1, 1))
+            mutation_index = random.randint(0, 7)
+            param_child = np.copy(param_child)
+            param_child[mutation_index] = random.randint(-1, 1)
 
 
 
@@ -71,7 +81,8 @@ def step(robotId, sensors, position):
             rob.controllers[robotId].set_absolute_orientation(90)
         print("Best distance:", bestDistance)
         print("Best params: ", bestParam)
-
+    else:
+        param = np.copy(param_child)
     # fonction de contrôle (qui dépend des entrées sensorielles, et des paramètres)
     translation = math.tanh(
         param[0] + param[1] * sensors["sensor_front_left"]["distance"] + param[2] * sensors["sensor_front"][
@@ -81,6 +92,7 @@ def step(robotId, sensors, position):
             "distance"] + param[7] * sensors["sensor_front_right"]["distance"]);
 
     return translation, rotation
+
 
 
 # =-=-=-=-=-=-=-=-=-= NE RIEN MODIFIER *APRES* CETTE LIGNE =-=-=-=-=-=-=-=-=-=

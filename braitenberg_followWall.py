@@ -16,6 +16,7 @@ import paintwars_arena
 
 def get_extended_sensors(sensors):
     for key in sensors:
+        print(key)
         sensors[key]["distance_to_robot"] = 1.0
         sensors[key]["distance_to_wall"] = 1.0
         if sensors[key]["isRobot"] == True:
@@ -53,15 +54,13 @@ def step(robotId, sensors): # <<<<<<<<<------- fonction à modifier pour le TP1
     #   sensors["sensor_front_right"]["distance_to_wall"]
     #   sensors["sensor_front_right"]["distance_to_robot"]
 
-    translation = 1
+    translation = 1 * sensors["sensor_front"]["distance"]
+    rotation = 0
 
-    if sensors["sensor_front_left"]["distance_to_wall"] < 1 or sensors["sensor_front_right"]["distance_to_wall"] < 1:
-        rotation = (sensors["sensor_front_left"]["distance_to_wall"] - sensors["sensor_front_right"][
-            "distance_to_wall"])
-    else:
-        rotation = 0
+    if sensors["sensor_right"] and sensors["sensor_left"]:
+        return 0, -0.7
 
-    # Limit the output values between -1 and +1
+    # limite les valeurs de sortie entre -1 et +1
     translation = max(-1, min(translation, 1))
     rotation = max(-1, min(rotation, 1))
 

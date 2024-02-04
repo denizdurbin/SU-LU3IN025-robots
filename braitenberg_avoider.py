@@ -56,6 +56,7 @@ def step(robotId, sensors): # <<<<<<<<<------- fonction à modifier pour le TP1
     rotation = (-1) * sensors["sensor_front_left"]["distance_to_wall"] + (1) * sensors["sensor_front_right"]["distance_to_wall"]
     rotation += (-1) * sensors["sensor_front_left"]["distance_to_robot"] + (1) * sensors["sensor_front_right"]["distance_to_robot"]
 
+
     # limite les valeurs de sortie entre -1 et +1
     translation = max(-1,min(translation,1))
     rotation = max(-1, min(rotation, 1))
